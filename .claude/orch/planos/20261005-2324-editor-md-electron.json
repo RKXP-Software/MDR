@@ -2,13 +2,13 @@
   "schema": "orch.plano/1",
   "id": "20261005-2324-editor-md-electron",
   "titulo": "MDR — editor e visualizador de Markdown (Electron)",
-  "status": "em-execucao",
+  "status": "concluido",
   "demanda": "Criar um app para pode editar e visualizar arquivos .md; repositorio do git: https://github.com/RKXP-Software/MDR",
   "objetivo": "App desktop (Windows) em Electron que abre, edita, visualiza (preview ao vivo) e salva arquivos .md, com código versionado e enviado para origin/main em https://github.com/RKXP-Software/MDR.",
   "grupo": null,
   "dependeDosPlanos": [],
   "criado": "2026-10-05T23:24:00-03:00",
-  "atualizado": "2026-10-06T03:52:07-03:00",
+  "atualizado": "2026-10-06T03:58:27-03:00",
   "commitInicial": "sem-git",
   "versaoOrch": "0.4.0",
   "ondas": [
@@ -193,11 +193,11 @@
         ".git"
       ],
       "prontoQuando": "git ls-remote origin mostra refs/heads/main",
-      "status": "em-andamento",
+      "status": "concluida",
       "inicio": "2026-10-06T03:52:07-03:00",
-      "fim": null,
+      "fim": "2026-10-06T03:58:27-03:00",
       "tentativas": 1,
-      "resultado": null
+      "resultado": "git init -b main, .claude/settings.local.json ignorado, commit 0b436a9 e push para origin/main; git ls-remote confirma refs/heads/main."
     }
   ],
   "eventos": [
@@ -338,7 +338,19 @@
       "tarefa": "T7",
       "tipo": "tarefa-iniciada",
       "texto": "T7 iniciada pelo orquestrador"
+    },
+    {
+      "quando": "2026-10-06T03:58:27-03:00",
+      "tarefa": "T7",
+      "tipo": "tarefa-concluida",
+      "texto": "T7 concluída pelo orquestrador (commit 0b436a9 publicado)"
+    },
+    {
+      "quando": "2026-10-06T03:58:27-03:00",
+      "tarefa": null,
+      "tipo": "plano-encerrado",
+      "texto": "Plano concluído: 9/9 tarefas"
     }
   ],
-  "resultadoFinal": null
+  "resultadoFinal": "App MDR (Electron 44 + electron-vite + TS) entregue e publicado em origin/main (commit 0b436a9): editor CodeMirror 6 com preview sanitizado, modos de visualização, scroll sincronizado, dark mode (sistema/claro/escuro), drag-and-drop, confirmação de alterações, preservação de codificação/EOL/BOM e escrita atômica. 263 testes, typecheck e build OK. Não exercitados em GUI/instalador: fluxos de tela, bloqueio webRequest de file:// remoto e electron fuses."
 }

@@ -1,4 +1,4 @@
-﻿<!-- orch:plano · id: 20261005-2324-editor-md-electron · status: em-execucao · criado: 2026-10-05 23:24 · commit-inicial: sem-git · versao-orch: 0.4.0 -->
+﻿<!-- orch:plano · id: 20261005-2324-editor-md-electron · status: concluido · criado: 2026-10-05 23:24 · commit-inicial: sem-git · versao-orch: 0.4.0 -->
 # MDR — editor e visualizador de Markdown (Electron)
 
 **Demanda original:** Criar um app para pode editar e visualizar arquivos .md; repositorio do git: https://github.com/RKXP-Software/MDR
@@ -32,7 +32,7 @@ App desktop (Windows) em Electron que abre, edita, visualiza (preview ao vivo) e
 | T6 | Escrever README | `orch:documentador` | T2, T3 | `README.md` | concluida |
 | T8 | Corrigir achados da revisão (A1, A2, M1–M4, B1–B6) | `orch:desenvolvedor` | T5 | `src/**`, `electron-builder.yml`, `package.json` | concluida |
 | T9 | Testes de regressão dos achados corrigidos | `orch:testador` | T8 | `tests/**` | concluida |
-| T7 | git init, commit e push para origin/main | orquestrador | T4, T5, T6, T9 | `.git` | em-andamento |
+| T7 | git init, commit e push para origin/main | orquestrador | T4, T5, T6, T9 | `.git` | concluida |
 
 Status: `pendente` · `em-andamento` · `concluida` · `falhou` · `pulada`
 
@@ -103,7 +103,7 @@ Caminho crítico: T1 → T3 → T5 → T8 → T9 → T7. Uma tarefa começa assi
 - **Executor:** orquestrador
 - **Faz:** `git init -b main`, remote `origin`, commit, `git push -u origin main`.
 - **Pronto quando:** `git ls-remote origin` mostra `refs/heads/main`.
-- **Resultado:** —
+- **Resultado:** `git init -b main`, `.claude/settings.local.json` adicionado ao `.gitignore`, commit `0b436a9` e push; `git ls-remote` confirma `refs/heads/main`.
 
 ## Registro de execução
 
@@ -122,7 +122,12 @@ Caminho crítico: T1 → T3 → T5 → T8 → T9 → T7. Uma tarefa começa assi
 | 2026-10-06 03:33 | T5 concluída por orch:revisor · Replanejado: T8 (correções) e T9 (regressão) antes do push · T8 iniciada |
 | 2026-10-06 03:49 | T8 concluída por orch:desenvolvedor · T9 iniciada |
 | 2026-10-06 03:52 | T9 concluída por orch:testador · T7 iniciada |
+| 2026-10-06 03:58 | T7 concluída pelo orquestrador (commit 0b436a9 publicado) · Plano concluído |
 
 ## Resultado final
 
-—
+App **MDR** publicado em https://github.com/RKXP-Software/MDR (`main`). Electron 44 + electron-vite 5 + TypeScript; CodeMirror 6; preview markdown-it + highlight.js sanitizado com DOMPurify; modos editar/dividido/visualizar com divisor; scroll sincronizado; **dark mode** (Sistema/Claro/Escuro, Ctrl+Shift+T, persistido, barra de título sincronizada); arrastar e soltar; confirmação ao descartar/fechar; codificação (UTF-8/windows-1252), EOL e BOM preservados; escrita atômica; menu pt-BR; instância única e abertura por linha de comando; empacotamento NSIS com associação .md e electron fuses.
+
+**Verificação:** 263 testes vitest, `npm run typecheck` e `npm run build` passando.
+
+**Pendências/riscos:** a GUI não foi exercitada (layout, scroll, drop, troca de tema); bloqueio de `file://` remoto via `webRequest` e fuses não verificados no app empacotado (`npm run dist` não executado); instalador sem ícone próprio; `package.json` declara MIT sem arquivo `LICENSE`; UTF-16 não é detectado; chunk do renderer ~1,8 MB.
