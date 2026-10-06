@@ -1,0 +1,344 @@
+{
+  "schema": "orch.plano/1",
+  "id": "20261005-2324-editor-md-electron",
+  "titulo": "MDR — editor e visualizador de Markdown (Electron)",
+  "status": "em-execucao",
+  "demanda": "Criar um app para pode editar e visualizar arquivos .md; repositorio do git: https://github.com/RKXP-Software/MDR",
+  "objetivo": "App desktop (Windows) em Electron que abre, edita, visualiza (preview ao vivo) e salva arquivos .md, com código versionado e enviado para origin/main em https://github.com/RKXP-Software/MDR.",
+  "grupo": null,
+  "dependeDosPlanos": [],
+  "criado": "2026-10-05T23:24:00-03:00",
+  "atualizado": "2026-10-06T03:52:07-03:00",
+  "commitInicial": "sem-git",
+  "versaoOrch": "0.4.0",
+  "ondas": [
+    [
+      "T1"
+    ],
+    [
+      "T2",
+      "T3"
+    ],
+    [
+      "T4",
+      "T5",
+      "T6"
+    ],
+    [
+      "T8"
+    ],
+    [
+      "T9"
+    ],
+    [
+      "T7"
+    ]
+  ],
+  "tarefas": [
+    {
+      "id": "T1",
+      "titulo": "Criar esqueleto electron-vite + TS e contrato da API",
+      "executor": "orch:desenvolvedor",
+      "dependeDe": [],
+      "arquivos": [
+        "package.json",
+        "electron.vite.config.ts",
+        "tsconfig*.json",
+        ".gitignore",
+        "src/shared/**",
+        "src/**"
+      ],
+      "prontoQuando": "npm install e npm run build passam; contrato em src/shared/api.ts",
+      "status": "concluida",
+      "inicio": "2026-10-05T23:27:00-03:00",
+      "fim": "2026-10-05T23:45:33-03:00",
+      "tentativas": 1,
+      "resultado": "Esqueleto electron 44.5 + electron-vite 5 (vite 7) + TS 5.9 strict, alias @shared, preload CJS, electron-builder NSIS com associação .md. typecheck e build OK. Contrato ampliado pelo orquestrador com openPath, getPathForFile e setTheme."
+    },
+    {
+      "id": "T2",
+      "titulo": "Implementar processo principal e preload (arquivos, menu, diálogos)",
+      "executor": "orch:desenvolvedor",
+      "dependeDe": [
+        "T1"
+      ],
+      "arquivos": [
+        "src/main/**",
+        "src/preload/**"
+      ],
+      "prontoQuando": "npm run typecheck e npm run build passam; API completa exposta",
+      "status": "concluida",
+      "inicio": "2026-10-05T23:45:33-03:00",
+      "fim": "2026-10-06T03:22:35-03:00",
+      "tentativas": 2,
+      "resultado": "Main modularizado (index, files, menu, window) e preload com toda a MdrApi; IPC com validação de remetente/argumentos, menu pt-BR, confirmação de descarte/fechar, argv + instância única, navegação e permissões bloqueadas. typecheck:node e build OK. Limitações: sem 'Novo' via contrato para a toolbar; cor de fundo da janela não acompanha setTheme."
+    },
+    {
+      "id": "T3",
+      "titulo": "Implementar UI: editor CodeMirror + preview markdown-it",
+      "executor": "orch:desenvolvedor",
+      "dependeDe": [
+        "T1"
+      ],
+      "arquivos": [
+        "src/renderer/**"
+      ],
+      "prontoQuando": "npm run typecheck e npm run build passam",
+      "status": "concluida",
+      "inicio": "2026-10-05T23:45:33-03:00",
+      "fim": "2026-10-06T03:28:46-03:00",
+      "tentativas": 2,
+      "resultado": "Renderer em módulos (main, editor, markdown, theme, view, style.css, preview.css): CodeMirror 6, preview markdown-it + hljs + DOMPurify, modos e divisor persistidos, scroll sincronizado por data-line, drag-and-drop, dark mode (system/light/dark, oneDark, hljs claro/escuro, setTheme). Botão Novo só no menu. typecheck:web e build OK; GUI não exercitada."
+    },
+    {
+      "id": "T4",
+      "titulo": "Escrever e rodar testes (vitest) + build",
+      "executor": "orch:testador",
+      "dependeDe": [
+        "T2",
+        "T3"
+      ],
+      "arquivos": [
+        "tests/**",
+        "vitest.config.ts"
+      ],
+      "prontoQuando": "npm test e npm run build passam",
+      "status": "concluida",
+      "inicio": "2026-10-06T03:28:46-03:00",
+      "fim": "2026-10-06T03:31:48-03:00",
+      "tentativas": 1,
+      "resultado": "vitest.config.ts + 3 arquivos em tests/ (main/files, renderer/markdown, renderer/theme-view): 134 testes passando; typecheck e build OK. Nenhum bug encontrado em src. Controladores initTheme/initView sem teste."
+    },
+    {
+      "id": "T5",
+      "titulo": "Revisar código e segurança",
+      "executor": "orch:revisor",
+      "dependeDe": [
+        "T2",
+        "T3"
+      ],
+      "arquivos": [],
+      "prontoQuando": "relatório com achados priorizados",
+      "status": "concluida",
+      "inicio": "2026-10-06T03:28:46-03:00",
+      "fim": "2026-10-06T03:33:51-03:00",
+      "tentativas": 1,
+      "resultado": "Base de segurança correta. Achados: A1 vazamento NTLM via //host e \\\\host (file:) no preview; A2 arquivo não-UTF-8 corrompido ao salvar; M1 escrita não atômica; M2 CRLF/BOM não preservados; M3 openPath aceita caminho arbitrário; M4 <style>/style permitidos; B1-B6 (save concorrente ao fechar, extensões divergentes, sem volta ao tema system, backgroundColor, mailto, fuses)."
+    },
+    {
+      "id": "T6",
+      "titulo": "Escrever README",
+      "executor": "orch:documentador",
+      "dependeDe": [
+        "T2",
+        "T3"
+      ],
+      "arquivos": [
+        "README.md"
+      ],
+      "prontoQuando": "README.md reflete o código real",
+      "status": "concluida",
+      "inicio": "2026-10-06T03:28:46-03:00",
+      "fim": "2026-10-06T03:31:10-03:00",
+      "tentativas": 1,
+      "resultado": "README.md em pt-BR com funcionalidades, dark mode, atalhos conferidos no menu.ts, scripts, instalador, linha de comando, estrutura, segurança e limitações. Pendência: package.json declara MIT sem arquivo LICENSE."
+    },
+    {
+      "id": "T8",
+      "titulo": "Corrigir achados da revisão (A1, A2, M1-M4, B1-B6)",
+      "executor": "orch:desenvolvedor",
+      "dependeDe": [
+        "T5"
+      ],
+      "arquivos": [
+        "src/**",
+        "electron-builder.yml",
+        "package.json"
+      ],
+      "prontoQuando": "achados corrigidos; npm run typecheck, npm test e npm run build passam",
+      "status": "concluida",
+      "inicio": "2026-10-06T03:33:51-03:00",
+      "fim": "2026-10-06T03:49:49-03:00",
+      "tentativas": 1,
+      "resultado": "12 achados corrigidos: bloqueio de file:// com host (main + DOMPurify, srcset/style proibidos), decodificação UTF-8 estrita com fallback windows-1252, escrita atômica, CRLF/BOM preservados, openDroppedFile no lugar de openPath, save enfileirado e fechar só quando limpo, MARKDOWN_EXTENSIONS compartilhado, submenu Tema, backgroundColor, mailto, electron fuses. typecheck, 134 testes e build OK. Não verificado em runtime: bloqueio webRequest e fuses no instalador."
+    },
+    {
+      "id": "T9",
+      "titulo": "Testes de regressão dos achados corrigidos",
+      "executor": "orch:testador",
+      "dependeDe": [
+        "T8"
+      ],
+      "arquivos": [
+        "tests/**"
+      ],
+      "prontoQuando": "testes cobrindo A1, A2, M2, M4, B2 passam; npm test e build OK",
+      "status": "concluida",
+      "inicio": "2026-10-06T03:49:49-03:00",
+      "fim": "2026-10-06T03:52:07-03:00",
+      "tentativas": 1,
+      "resultado": "3 arquivos novos (tests/main/encoding, tests/main/menu, tests/renderer/security): suíte com 263 testes passando; typecheck e build OK. Nenhum bug encontrado."
+    },
+    {
+      "id": "T7",
+      "titulo": "git init, commit e push para origin/main",
+      "executor": "orquestrador",
+      "dependeDe": [
+        "T4",
+        "T5",
+        "T6",
+        "T9"
+      ],
+      "arquivos": [
+        ".git"
+      ],
+      "prontoQuando": "git ls-remote origin mostra refs/heads/main",
+      "status": "em-andamento",
+      "inicio": "2026-10-06T03:52:07-03:00",
+      "fim": null,
+      "tentativas": 1,
+      "resultado": null
+    }
+  ],
+  "eventos": [
+    {
+      "quando": "2026-10-05T23:24:00-03:00",
+      "tarefa": null,
+      "tipo": "plano-criado",
+      "texto": "Plano criado"
+    },
+    {
+      "quando": "2026-10-05T23:27:00-03:00",
+      "tarefa": null,
+      "tipo": "plano-iniciado",
+      "texto": "Execução iniciada"
+    },
+    {
+      "quando": "2026-10-05T23:27:00-03:00",
+      "tarefa": "T1",
+      "tipo": "tarefa-iniciada",
+      "texto": "T1 iniciada por orch:desenvolvedor"
+    },
+    {
+      "quando": "2026-10-05T23:45:33-03:00",
+      "tarefa": "T1",
+      "tipo": "tarefa-concluida",
+      "texto": "T1 concluída por orch:desenvolvedor"
+    },
+    {
+      "quando": "2026-10-05T23:45:33-03:00",
+      "tarefa": null,
+      "tipo": "replanejado",
+      "texto": "Dark mode explícito (pedido do usuário) e contrato ampliado (openPath, getPathForFile, setTheme)"
+    },
+    {
+      "quando": "2026-10-05T23:45:33-03:00",
+      "tarefa": "T2",
+      "tipo": "tarefa-iniciada",
+      "texto": "T2 iniciada por orch:desenvolvedor"
+    },
+    {
+      "quando": "2026-10-05T23:45:33-03:00",
+      "tarefa": "T3",
+      "tipo": "tarefa-iniciada",
+      "texto": "T3 iniciada por orch:desenvolvedor"
+    },
+    {
+      "quando": "2026-10-06T03:22:21-03:00",
+      "tarefa": "T2",
+      "tipo": "tarefa-reenviada",
+      "texto": "T2 interrompida por limite de uso da API; retomada no mesmo agente"
+    },
+    {
+      "quando": "2026-10-06T03:22:21-03:00",
+      "tarefa": "T3",
+      "tipo": "tarefa-reenviada",
+      "texto": "T3 interrompida por limite de uso da API; retomada no mesmo agente"
+    },
+    {
+      "quando": "2026-10-06T03:22:35-03:00",
+      "tarefa": "T2",
+      "tipo": "tarefa-concluida",
+      "texto": "T2 concluída por orch:desenvolvedor"
+    },
+    {
+      "quando": "2026-10-06T03:28:46-03:00",
+      "tarefa": "T3",
+      "tipo": "tarefa-concluida",
+      "texto": "T3 concluída por orch:desenvolvedor"
+    },
+    {
+      "quando": "2026-10-06T03:28:46-03:00",
+      "tarefa": "T4",
+      "tipo": "tarefa-iniciada",
+      "texto": "T4 iniciada por orch:testador"
+    },
+    {
+      "quando": "2026-10-06T03:28:46-03:00",
+      "tarefa": "T5",
+      "tipo": "tarefa-iniciada",
+      "texto": "T5 iniciada por orch:revisor"
+    },
+    {
+      "quando": "2026-10-06T03:28:46-03:00",
+      "tarefa": "T6",
+      "tipo": "tarefa-iniciada",
+      "texto": "T6 iniciada por orch:documentador"
+    },
+    {
+      "quando": "2026-10-06T03:31:10-03:00",
+      "tarefa": "T6",
+      "tipo": "tarefa-concluida",
+      "texto": "T6 concluída por orch:documentador"
+    },
+    {
+      "quando": "2026-10-06T03:31:48-03:00",
+      "tarefa": "T4",
+      "tipo": "tarefa-concluida",
+      "texto": "T4 concluída por orch:testador"
+    },
+    {
+      "quando": "2026-10-06T03:33:51-03:00",
+      "tarefa": "T5",
+      "tipo": "tarefa-concluida",
+      "texto": "T5 concluída por orch:revisor"
+    },
+    {
+      "quando": "2026-10-06T03:33:51-03:00",
+      "tarefa": null,
+      "tipo": "replanejado",
+      "texto": "Adicionadas T8 (correções da revisão) e T9 (testes de regressão); T7 passa a depender de T9"
+    },
+    {
+      "quando": "2026-10-06T03:33:51-03:00",
+      "tarefa": "T8",
+      "tipo": "tarefa-iniciada",
+      "texto": "T8 iniciada por orch:desenvolvedor"
+    },
+    {
+      "quando": "2026-10-06T03:49:49-03:00",
+      "tarefa": "T8",
+      "tipo": "tarefa-concluida",
+      "texto": "T8 concluída por orch:desenvolvedor"
+    },
+    {
+      "quando": "2026-10-06T03:49:49-03:00",
+      "tarefa": "T9",
+      "tipo": "tarefa-iniciada",
+      "texto": "T9 iniciada por orch:testador"
+    },
+    {
+      "quando": "2026-10-06T03:52:07-03:00",
+      "tarefa": "T9",
+      "tipo": "tarefa-concluida",
+      "texto": "T9 concluída por orch:testador"
+    },
+    {
+      "quando": "2026-10-06T03:52:07-03:00",
+      "tarefa": "T7",
+      "tipo": "tarefa-iniciada",
+      "texto": "T7 iniciada pelo orquestrador"
+    }
+  ],
+  "resultadoFinal": null
+}

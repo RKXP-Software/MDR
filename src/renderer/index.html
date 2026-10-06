@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: file:"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MDR</title>
+  </head>
+  <body>
+    <div id="app">
+      <header class="toolbar" role="toolbar" aria-label="Barra de ferramentas">
+        <button type="button" data-action="open" title="Abrir arquivo">Abrir</button>
+        <button type="button" data-action="save" title="Salvar">Salvar</button>
+        <span class="sep" aria-hidden="true"></span>
+        <button type="button" data-action="viewEdit" data-mode="edit" title="Somente editor">Editor</button>
+        <button type="button" data-action="viewSplit" data-mode="split" title="Editor e visualização">Dividido</button>
+        <button type="button" data-action="viewPreview" data-mode="preview" title="Somente visualização">
+          Visualização
+        </button>
+        <span class="sep" aria-hidden="true"></span>
+        <button type="button" data-action="toggleTheme" id="theme-btn" class="icon" title="Alternar tema">🌙</button>
+      </header>
+      <main id="main" class="mode-split">
+        <section id="editor-pane" class="pane" aria-label="Editor"></section>
+        <div id="divider" role="separator" aria-orientation="vertical" title="Arraste para redimensionar"></div>
+        <section id="preview-pane" class="pane" aria-label="Visualização">
+          <article id="preview" class="markdown-body"></article>
+        </section>
+      </main>
+      <footer class="statusbar">
+        <span id="st-name">Sem título</span>
+        <span id="st-dirty"></span>
+        <span class="spacer"></span>
+        <span id="st-count"></span>
+        <span id="st-cursor"></span>
+      </footer>
+    </div>
+    <script type="module" src="./src/main.ts"></script>
+  </body>
+</html>

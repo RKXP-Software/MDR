@@ -1,0 +1,241 @@
+/* Layout do app e variáveis de tema (claro padrão; escuro via [data-theme='dark'] no <html>). */
+
+:root {
+  --font-ui: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'Cascadia Code', Consolas, 'Liberation Mono', monospace;
+
+  --bg: #ffffff;
+  --bg-subtle: #f6f8fa;
+  --fg: #1f2328;
+  --fg-muted: #59636e;
+  --border: #d1d9e0;
+  --border-muted: #d1d9e0b3;
+  --accent: #0969da;
+  --active-line: #f2f6fc;
+
+  --toolbar-bg: #f6f8fa;
+  --toolbar-fg: #1f2328;
+  --btn-hover: #e7ebef;
+  --btn-active: #dbe4ee;
+  --statusbar-bg: #f6f8fa;
+  --statusbar-fg: #59636e;
+
+  --link: #0969da;
+  --code-bg: #818b981f;
+  --pre-bg: #f6f8fa;
+  --table-row-alt: #f6f8fa;
+  --blockquote-fg: #59636e;
+  --blockquote-border: #d1d9e0;
+  --mark-bg: #fff8c5;
+
+  --scrollbar-thumb: #c1c8cf;
+  --scrollbar-thumb-hover: #9ea7b1;
+  --scrollbar-track: transparent;
+
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  --bg: #0d1117;
+  --bg-subtle: #151b23;
+  --fg: #e6edf3;
+  --fg-muted: #9198a1;
+  --border: #3d444d;
+  --border-muted: #3d444db3;
+  --accent: #4493f8;
+  --active-line: #161b22;
+
+  --toolbar-bg: #151b23;
+  --toolbar-fg: #e6edf3;
+  --btn-hover: #262c36;
+  --btn-active: #2f3742;
+  --statusbar-bg: #151b23;
+  --statusbar-fg: #9198a1;
+
+  --link: #4493f8;
+  --code-bg: #656c7633;
+  --pre-bg: #151b23;
+  --table-row-alt: #151b23;
+  --blockquote-fg: #9198a1;
+  --blockquote-border: #3d444d;
+  --mark-bg: #bb800926;
+
+  --scrollbar-thumb: #3d444d;
+  --scrollbar-thumb-hover: #565e68;
+  --scrollbar-track: transparent;
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  font-family: var(--font-ui);
+  background: var(--bg);
+  color: var(--fg);
+}
+
+#app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- Scrollbars ---- */
+
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border: 3px solid transparent;
+  border-radius: 6px;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover);
+}
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* ---- Toolbar ---- */
+
+.toolbar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 8px;
+  background: var(--toolbar-bg);
+  color: var(--toolbar-fg);
+  border-bottom: 1px solid var(--border);
+  user-select: none;
+}
+
+.toolbar button {
+  font: inherit;
+  font-size: 13px;
+  color: inherit;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+.toolbar button:hover {
+  background: var(--btn-hover);
+}
+.toolbar button.active {
+  background: var(--btn-active);
+  border-color: var(--border);
+}
+.toolbar button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.toolbar button.icon {
+  padding: 4px 8px;
+  font-size: 15px;
+  line-height: 1;
+}
+
+.toolbar .sep {
+  width: 1px;
+  height: 20px;
+  margin: 0 6px;
+  background: var(--border);
+}
+
+/* ---- Área principal ---- */
+
+#main {
+  --split: 0.5;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+}
+
+.pane {
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+#editor-pane {
+  flex: 0 0 calc(var(--split) * 100%);
+}
+#editor-pane .cm-editor {
+  height: 100%;
+}
+
+#preview-pane {
+  flex: 1 1 0;
+  overflow: auto;
+  background: var(--bg);
+}
+
+#divider {
+  flex: none;
+  width: 5px;
+  cursor: col-resize;
+  background: var(--border);
+  border-left: 2px solid var(--bg);
+  border-right: 2px solid var(--bg);
+}
+#divider:hover,
+#main.dragging #divider {
+  background: var(--accent);
+}
+#main.dragging {
+  cursor: col-resize;
+  user-select: none;
+}
+
+#main.mode-edit #editor-pane {
+  flex: 1 1 0;
+}
+#main.mode-edit #preview-pane,
+#main.mode-edit #divider,
+#main.mode-preview #editor-pane,
+#main.mode-preview #divider {
+  display: none;
+}
+
+/* ---- Barra de status ---- */
+
+.statusbar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 3px 10px;
+  font-size: 12px;
+  background: var(--statusbar-bg);
+  color: var(--statusbar-fg);
+  border-top: 1px solid var(--border);
+  user-select: none;
+  white-space: nowrap;
+}
+.statusbar .spacer {
+  flex: 1;
+}
+#st-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--fg);
+}
+#st-dirty {
+  color: var(--accent);
+}

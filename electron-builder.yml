@@ -1,0 +1,31 @@
+appId: com.rkxp.mdr
+productName: MDR
+directories:
+  output: release
+  buildResources: build
+files:
+  - out/**
+  - package.json
+  - '!**/*.map'
+# Fuses do binário Electron (@electron/fuses, aplicado pelo electron-builder ao empacotar).
+electronFuses:
+  runAsNode: false
+  enableCookieEncryption: true
+  enableNodeOptionsEnvironmentVariable: false
+  enableNodeCliInspectArguments: false
+  enableEmbeddedAsarIntegrityValidation: true
+  onlyLoadAppFromAsar: true
+fileAssociations:
+  - ext: [md, markdown]
+    name: Markdown
+    description: Documento Markdown
+    role: Editor
+win:
+  target: nsis
+  executableName: MDR
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  artifactName: ${productName}-Setup-${version}.${ext}
