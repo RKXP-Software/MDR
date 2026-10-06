@@ -35,6 +35,8 @@ export function createMainWindow(): BrowserWindow {
     show: false,
     autoHideMenuBar: false,
     backgroundColor: backgroundColor(),
+    // Em dev não há .exe para herdar o ícone (__dirname é out/main); empacotado, a janela usa o do .exe.
+    ...(!app.isPackaged && { icon: join(__dirname, '../../build/icon.png') }),
     webPreferences: {
       preload: join(__dirname, '../preload/index.js'),
       contextIsolation: true,

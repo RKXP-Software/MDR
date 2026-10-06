@@ -1,7 +1,7 @@
 {
   "name": "mdr",
   "productName": "MDR",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Editor e visualizador de Markdown",
   "author": "RKXP Software",
   "license": "MIT",
@@ -15,7 +15,8 @@
     "typecheck:web": "tsc --noEmit -p tsconfig.web.json",
     "typecheck": "npm run typecheck:node && npm run typecheck:web",
     "test": "vitest run",
-    "dist": "npm run build && electron-builder --win"
+    "dist": "npm run build && electron-builder --win",
+    "icon": "node scripts/gerar-icone.mjs"
   },
   "dependencies": {
     "@codemirror/commands": "^6.11.1",
@@ -31,6 +32,7 @@
     "markdown-it-task-lists": "^2.1.1"
   },
   "devDependencies": {
+    "@resvg/resvg-js": "^2.6.2",
     "@types/markdown-it": "^14.2.0",
     "@types/node": "^24.19.1",
     "electron": "^44.5.1",

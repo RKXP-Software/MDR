@@ -1,0 +1,68 @@
+{
+  "schema": "orch.plano/1",
+  "id": "20261006-1305-icone-minimalista",
+  "titulo": "Novo ícone minimalista do MDR",
+  "status": "concluido",
+  "demanda": "Novo icone para a aplicação\n\nCriar um novo icone para a aplicação, entendo que é o app é simples, só serve para ler arquivos .md\nEntão, crie uma logo minimalista para o .md reader",
+  "objetivo": "O MDR passa a ter uma logo própria e minimalista (SVG fonte em build/) e os ícones gerados a partir dela (build/icon.ico multi-tamanho e build/icon.png), usados pelo instalador/executável e pela janela em modo dev.",
+  "grupo": null,
+  "dependeDosPlanos": [],
+  "criado": "2026-10-06T13:05:00-03:00",
+  "atualizado": "2026-10-06T13:29:00-03:00",
+  "commitInicial": "a72e02c",
+  "versaoOrch": "0.4.0",
+  "ondas": [["T1"], ["T2"], ["T3"]],
+  "tarefas": [
+    {
+      "id": "T1",
+      "titulo": "Desenhar a logo SVG e criar o gerador de ícones",
+      "executor": "orch:desenvolvedor",
+      "dependeDe": [],
+      "arquivos": ["build/icon.svg", "build/icon.ico", "build/icon.png", "scripts/gerar-icone.mjs", "package.json", "package-lock.json"],
+      "prontoQuando": "npm run icon roda sem erro; build/icon.ico tem 16/24/32/48/64/128/256 px com cabeçalho válido; build/icon.png é 512x512; glifo legível em 16 e 32 px.",
+      "status": "concluida",
+      "inicio": "2026-10-06T13:20:00-03:00",
+      "fim": "2026-10-06T13:23:00-03:00",
+      "tentativas": 1,
+      "resultado": "Criados build/icon.svg (quadrado azul + glifo M↓), scripts/gerar-icone.mjs, build/icon.ico (7 tamanhos) e build/icon.png (512). npm run icon, typecheck e 263 testes passam."
+    },
+    {
+      "id": "T2",
+      "titulo": "Usar o ícone na janela em modo dev",
+      "executor": "orch:desenvolvedor",
+      "dependeDe": ["T1"],
+      "arquivos": ["src/main/window.ts"],
+      "prontoQuando": "npm run typecheck e npm test passam; diff de window.ts restrito à opção icon (só quando !app.isPackaged).",
+      "status": "concluida",
+      "inicio": "2026-10-06T13:23:00-03:00",
+      "fim": "2026-10-06T13:26:00-03:00",
+      "tentativas": 1,
+      "resultado": "window.ts passa icon (build/icon.png) ao BrowserWindow só quando !app.isPackaged. Typecheck e 263 testes passam."
+    },
+    {
+      "id": "T3",
+      "titulo": "Revisar visual, ICO e verificar typecheck/testes",
+      "executor": "orch:revisor",
+      "dependeDe": ["T1", "T2"],
+      "arquivos": [],
+      "prontoQuando": "Relatório sem problemas bloqueantes; typecheck e 263+ testes passando.",
+      "status": "concluida",
+      "inicio": "2026-10-06T13:26:00-03:00",
+      "fim": "2026-10-06T13:29:00-03:00",
+      "tentativas": 1,
+      "resultado": "Revisão sem problemas bloqueantes; ICO válido (7 tamanhos), PNG 512, window.ts sem segurança afrouxada; typecheck e 263 testes passam. Menores: cantos da base do M retos (estético)."
+    }
+  ],
+  "eventos": [
+    { "quando": "2026-10-06T13:05:00-03:00", "tarefa": null, "tipo": "plano-criado", "texto": "Plano criado" },
+    { "quando": "2026-10-06T13:20:00-03:00", "tarefa": null, "tipo": "plano-iniciado", "texto": "Execução iniciada" },
+    { "quando": "2026-10-06T13:20:00-03:00", "tarefa": "T1", "tipo": "tarefa-iniciada", "texto": "T1 iniciada por orch:desenvolvedor" },
+    { "quando": "2026-10-06T13:23:00-03:00", "tarefa": "T1", "tipo": "tarefa-concluida", "texto": "T1 concluída" },
+    { "quando": "2026-10-06T13:23:00-03:00", "tarefa": "T2", "tipo": "tarefa-iniciada", "texto": "T2 iniciada por orch:desenvolvedor" },
+    { "quando": "2026-10-06T13:26:00-03:00", "tarefa": "T2", "tipo": "tarefa-concluida", "texto": "T2 concluída" },
+    { "quando": "2026-10-06T13:26:00-03:00", "tarefa": "T3", "tipo": "tarefa-iniciada", "texto": "T3 iniciada por orch:revisor" },
+    { "quando": "2026-10-06T13:29:00-03:00", "tarefa": "T3", "tipo": "tarefa-concluida", "texto": "T3 concluída" },
+    { "quando": "2026-10-06T13:29:00-03:00", "tarefa": null, "tipo": "plano-encerrado", "texto": "Plano concluído (3/3)" }
+  ],
+  "resultadoFinal": "Logo minimalista (quadrado azul + M↓) em build/icon.svg, com ícones gerados por npm run icon (build/icon.ico e build/icon.png) e ícone da janela em dev. Revisado; typecheck e 263 testes passam."
+}
