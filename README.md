@@ -6,6 +6,12 @@ Feito com Electron 44, electron-vite 5, Vite 7 e TypeScript. O editor usa CodeMi
 
 Repositório: <https://github.com/RKXP-Software/MDR>
 
+## Capturas de tela
+
+![MDR no tema escuro, modo dividido](docs/screenshots/escuro-dividido.png)
+
+![MDR no tema claro, modo dividido](docs/screenshots/claro-dividido.png)
+
 ## Funcionalidades
 
 - Editor CodeMirror 6 com realce de sintaxe Markdown (e de blocos de código nas linguagens suportadas), numeração de linhas e quebra de linha automática.
